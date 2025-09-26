@@ -1,0 +1,22 @@
+# Eclipse project files
+.project
+.classpath
+.settings/
+
+# Compiled output
+bin/
+target/
+*.class
+*.jar
+*.war
+
+# Workspace-specific metadata
+.metadata/
+
+# Log files and temporary files
+*.log
+*.tmp
+temp/
+
+# Optional: Generated source files (if not under version control)
+src-gen/
