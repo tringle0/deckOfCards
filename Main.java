@@ -7,6 +7,10 @@ public class Main {
 		Card cardOne = new Card(Suit.diamonds, 1);
 		System.out.println(cardOne);
 		
+		// test clamping
+		Card invalidCard = new Card(Suit.diamonds, 14);
+		System.out.println(invalidCard);
+		
 		Deck deckOne = new Deck();
 		// test adding cards to deck
 		deckOne.addCard(new Card(Suit.clubs, 12));
