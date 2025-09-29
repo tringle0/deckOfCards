@@ -100,5 +100,24 @@ public class Main {
 		deckOne.setAllowDuplicates(false);
 		System.out.println(deckOne);
 
+		//sort deck
+		deckOne.sort();
+		System.out.println(deckOne);
+		
+		
+		//test unordered sort
+		deckOne = new Deck();
+		deckOne.addCard(new Card(Suit.spades, 2));
+		deckOne.addCard(new Card(Suit.joker, 0));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		
+		deckTwo = new Deck();
+		deckTwo.addCard(new Card(Suit.diamonds, 13));
+		deckTwo.addCard(new Card(Suit.joker, 0));
+		deckTwo.addCard(new Card(Suit.spades, 2));
+		
+		if(deckOne.unorderedEquals(deckTwo)) {
+			System.out.println("deck 1 unordered equals deck 2");
+		}
 	}
 }

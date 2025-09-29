@@ -25,6 +25,10 @@ public class Card{
 		return (this.suit == other.suit) && (this.rank == other.rank);
 	}
 	
+	public int compareTo(Card other) {
+		return this.rank - other.rank;
+	}
+	
 	// ---------- this thing -----------
 	
 	//override for print statement

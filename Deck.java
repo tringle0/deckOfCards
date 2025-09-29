@@ -57,6 +57,14 @@ class Deck {
 		}
 		return true;
 	}
+	
+	public boolean unorderedEquals(Deck other) {
+		Deck a = new Deck(this);
+		Deck b = new Deck(other);
+		a.sort();
+		b.sort();
+		return a.equals(b);
+	}
 
 	// returns a new deck with cards <start> inclusive, to <start + len> exclusive
 	public Deck subDeck(int start, int len) {
@@ -126,6 +134,51 @@ class Deck {
 			noDupes.addCard(c);
 		}
 		this.cards = noDupes.cards;
+	}
+	
+	//sorts the arrays
+	public void sort() {
+		cards = sortRec(cards, 0, cards.size()-1);
+	}
+	
+	// ---------- helpers ---------
+	
+	//returns array with elements at index a and index b swapped
+	private List<Card> swap(List<Card> list, int a, int b){
+		Card temp;
+		temp = list.get(a);
+		list.set(a, list.get(b));
+		list.set(b, temp);
+		return list;
+	}
+	
+	//quick sort 
+	private List<Card> sortRec(List<Card> list, int lower, int upper){
+		//base case: already sorted
+		if(upper <= lower) return list;
+		
+		//pick a pivot (last card)
+		Card pivot = list.get(upper);
+		
+		//sort elements around the pivot
+		//i - position before the pivot
+		int i = lower;
+		for(int k = lower; k < upper; k++) {
+			//swap smaller elements before the pivot and then increment pivot
+			if(list.get(k).compareTo(pivot) < 0) {
+				list = swap(list, k, i);
+				i++;
+			}
+		}
+		
+		//move the pivot into the center
+		list = swap(list, i, upper);
+		
+		//partition and then sort the two halves
+		int split = i;
+		list=sortRec(list, lower, split-1);
+		list = sortRec(list, split+1, upper);
+		return list;
 	}
 
 	// ---------- this thing ---------
