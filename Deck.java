@@ -75,6 +75,7 @@ class Deck {
 			croppedCards.add(cards.get(k));
 		}
 		Deck result = new Deck();
+		result.setAllowDuplicates(allowDuplicates);
 		result.cards = croppedCards;
 		return result;
 	}
