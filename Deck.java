@@ -70,13 +70,11 @@ class Deck {
 	public Deck subDeck(int start, int len) {
 		start = Math.clamp(start, 0, cards.size());
 		len = Math.clamp(len, 0, cards.size() - start);
-		List<Card> croppedCards = new ArrayList<Card>();
-		for (int k = start; k < start + len; k++) {
-			croppedCards.add(cards.get(k));
-		}
 		Deck result = new Deck();
 		result.setAllowDuplicates(allowDuplicates);
-		result.cards = croppedCards;
+		for (int k = start; k < start + len; k++) {
+			result.addCard(cards.get(k));
+		}
 		return result;
 	}
 
