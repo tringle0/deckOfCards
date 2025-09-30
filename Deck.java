@@ -16,7 +16,7 @@ class Deck {
 	// copy of another deck
 	public Deck(Deck deck) {
 		this.allowDuplicates = deck.allowDuplicates;
-		this.cards = deck.cards;
+		this.cards = new ArrayList<Card>(deck.cards);
 	}
 
 	// ---------- setters ---------
@@ -35,6 +35,15 @@ class Deck {
 	public boolean isEmpty() {
 		return cards.isEmpty();
 	}
+	
+	//returns the amount of a card in a deck
+	public int count(Card card) {
+		int counter = 0;
+		for(Card c : cards) {
+			if(c.equals(card)) counter++;
+		}
+		return counter;
+	}
 
 	// check if the deck contains a card
 	public boolean contains(Card card) {
@@ -47,17 +56,26 @@ class Deck {
 	}
 
 	// check if the deck equals another
-	public boolean equals(Deck other) {
-		if (cards.size() != other.cards.size())
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Deck))
 			return false;
+		Deck otherDeck = (Deck) other;
+
+		//holistic checks
+		if(this.allowDuplicates != otherDeck.allowDuplicates) return false;
+		if (cards.size() != otherDeck.cards.size()) return false;
+			
+		
 		for (int k = 0; k < cards.size(); k++) {
-			if (!cards.get(k).equals(other.cards.get(k))) {
+			if (!cards.get(k).equals(otherDeck.cards.get(k))) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
+	//returns true if two decks match (ignoring order of cards)
 	public boolean unorderedEquals(Deck other) {
 		Deck a = new Deck(this);
 		Deck b = new Deck(other);
@@ -81,12 +99,7 @@ class Deck {
 	// ---------- methods ---------
 	// shuffle deck
 	public void shuffle() {
-		List<Card> shuffledCards = new ArrayList<Card>();
-		int cardsTotal = cards.size();
-		for (int k = 0; k < cardsTotal; k++) {
-			shuffledCards.add(drawRandom(true));
-		}
-		cards = shuffledCards;
+		Collections.shuffle(cards);
 	}
 
 	// adds a card to the deck, returns true if successful
@@ -100,29 +113,43 @@ class Deck {
 
 	// returns a random card from the deck
 	public Card drawRandom(boolean removeCard) {
+		if(cards.isEmpty()) return null;
+		
 		int randomCard = (int) (Math.random() * cards.size());
 		Card drawn = cards.get(randomCard);
 		if (removeCard)
-			cards.remove(drawn);
+			cards.remove(randomCard);
 		return drawn;
 	}
 
 	// returns the top of the deck
 	public Card drawTop(boolean removeCard) {
+		if(cards.isEmpty()) return null;
+		
 		Card drawn = cards.getFirst();
 		if (removeCard)
-			cards.remove(drawn);
+			cards.remove(0);
 		return drawn;
 	}
 
-	// remove all cards that match specified card from the deck, returns true if
-	// successful
+	// removes card at index
+	public void removeCard(int remove) {
+		cards.remove(remove);
+	}
+
+	// remove first instance of a card object
 	public void removeCard(Card remove) {
 		for (int k = 0; k < cards.size(); k++) {
 			if (cards.get(k).equals(remove)) {
 				cards.remove(k--);
+				return;
 			}
 		}
+	}
+
+	// remove all cards
+	public void clear() {
+		cards.clear();
 	}
 
 	// remove duplicates by copying deck into a deck that doesn't allow dupes
@@ -132,51 +159,52 @@ class Deck {
 		for (Card c : cards) {
 			noDupes.addCard(c);
 		}
-		this.cards = noDupes.cards;
+		this.cards = new ArrayList<Card>(noDupes.cards);
 	}
-	
-	//sorts the arrays
+
+	// sorts the arrays
 	public void sort() {
-		cards = sortRec(cards, 0, cards.size()-1);
+		cards = sortRec(cards, 0, cards.size() - 1);
 	}
-	
+
 	// ---------- helpers ---------
-	
-	//returns array with elements at index a and index b swapped
-	private List<Card> swap(List<Card> list, int a, int b){
+
+	// returns array with elements at index a and index b swapped
+	private List<Card> swap(List<Card> list, int a, int b) {
 		Card temp;
 		temp = list.get(a);
 		list.set(a, list.get(b));
 		list.set(b, temp);
 		return list;
 	}
-	
-	//quick sort 
-	private List<Card> sortRec(List<Card> list, int lower, int upper){
-		//base case: already sorted
-		if(upper <= lower) return list;
-		
-		//pick a pivot (last card)
+
+	// quick sort
+	private List<Card> sortRec(List<Card> list, int lower, int upper) {
+		// base case: already sorted
+		if (upper <= lower)
+			return list;
+
+		// pick a pivot (last card)
 		Card pivot = list.get(upper);
-		
-		//sort elements around the pivot
-		//i - position before the pivot
+
+		// sort elements around the pivot
+		// i - position before the pivot
 		int i = lower;
-		for(int k = lower; k < upper; k++) {
-			//swap smaller elements before the pivot and then increment pivot
-			if(list.get(k).compareTo(pivot) < 0) {
+		for (int k = lower; k < upper; k++) {
+			// swap smaller elements before the pivot and then increment pivot
+			if (list.get(k).compareTo(pivot) < 0) {
 				list = swap(list, k, i);
 				i++;
 			}
 		}
-		
-		//move the pivot into the center
+
+		// move the pivot into the center
 		list = swap(list, i, upper);
-		
-		//partition and then sort the two halves
+
+		// partition and then sort the two halves
 		int split = i;
-		list=sortRec(list, lower, split-1);
-		list = sortRec(list, split+1, upper);
+		list = sortRec(list, lower, split - 1);
+		list = sortRec(list, split + 1, upper);
 		return list;
 	}
 

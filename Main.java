@@ -26,7 +26,15 @@ public class Main {
 		// test random draws (remove and no remove)
 		System.out.println("random draw (removed) : " + deckOne.drawRandom(true));
 		System.out.println("random draw : " + deckOne.drawRandom(false));
+		
+		System.out.println(deckOne);
 
+		//test draw top
+		System.out.println("top draw (removed) : " + deckOne.drawTop(true));
+		System.out.println("top draw : " + deckOne.drawTop(false));
+		
+		System.out.println(deckOne);
+		
 		// test deck shuffling
 		deckOne.shuffle();
 		System.out.println("\nshuffled deck one : \n");
@@ -101,11 +109,13 @@ public class Main {
 		System.out.println(deckOne);
 
 		//sort deck
+		deckOne = new FilledDeck();
+		deckOne.shuffle();
 		deckOne.sort();
 		System.out.println(deckOne);
 		
 		
-		//test unordered sort
+		//test unordered equals
 		deckOne = new Deck();
 		deckOne.addCard(new Card(Suit.spades, 2));
 		deckOne.addCard(new Card(Suit.joker, 0));
@@ -119,5 +129,38 @@ public class Main {
 		if(deckOne.unorderedEquals(deckTwo)) {
 			System.out.println("deck 1 unordered equals deck 2");
 		}
+		
+		//test subdeck on a deck with duplicates
+		deckOne = new Deck();
+		deckOne.setAllowDuplicates(true);
+		deckOne.addCard(new Card(Suit.spades, 2));
+		deckOne.addCard(new Card(Suit.joker, 0));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		
+		deckTwo = deckOne.subDeck(1, 3);
+		System.out.print(deckTwo);
+		
+		//mimic old removeCard function
+		System.out.println("mimic old removecard:");
+		
+		deckOne = new Deck();
+		deckOne.addCard(new Card(Suit.spades, 2));
+		deckOne.addCard(new Card(Suit.joker, 0));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		
+		Card toRemove = new Card(Suit.diamonds, 13);
+		while(deckOne.contains(toRemove)) {
+			deckOne.removeCard(toRemove);
+		}
+		
+		System.out.println(deckOne);
+		
+		//test drawing on an empty deck
+		deckOne.clear();
+		deckOne.drawRandom(true);
+		
 	}
 }

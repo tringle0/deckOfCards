@@ -21,12 +21,17 @@ public class Card{
 	public int getRank() { return rank; }
 	
 	//check if two cards are equal
-	public boolean equals(Card other) {
-		return (this.suit == other.suit) && (this.rank == other.rank);
+	@Override
+	public boolean equals(Object other) {
+		if(!(other instanceof Card)) return false;
+		Card otherCard = (Card) other;
+		return (this.suit == otherCard.suit) && (this.rank == otherCard.rank);
 	}
 	
+	//compare the values of both cards
 	public int compareTo(Card other) {
-		return this.rank - other.rank;
+		if(suit == Suit.joker && other.suit != Suit.joker) return -1;
+		return ((this.rank - other.rank)*4 + (suit.ordinal() - other.suit.ordinal()));
 	}
 	
 	// ---------- this thing -----------
