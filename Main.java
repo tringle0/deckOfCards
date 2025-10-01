@@ -1,16 +1,22 @@
 package deckOfCards;
 
+
+/**
+ * @author tringle
+ * @version four
+ * @since 10/1/2025
+ */
+
 public class Main {
 	public static void main(String args[]) {
-		
 		// test creating cards
 		Card cardOne = new Card(Suit.diamonds, 1);
 		System.out.println(cardOne);
-		
+
 		// test clamping
 		Card invalidCard = new Card(Suit.diamonds, 14);
 		System.out.println(invalidCard);
-		
+
 		Deck deckOne = new Deck();
 		// test adding cards to deck
 		deckOne.addCard(new Card(Suit.clubs, 12));
@@ -26,15 +32,15 @@ public class Main {
 		// test random draws (remove and no remove)
 		System.out.println("random draw (removed) : " + deckOne.drawRandom(true));
 		System.out.println("random draw : " + deckOne.drawRandom(false));
-		
+
 		System.out.println(deckOne);
 
-		//test draw top
+		// test draw top
 		System.out.println("top draw (removed) : " + deckOne.drawTop(true));
 		System.out.println("top draw : " + deckOne.drawTop(false));
-		
+
 		System.out.println(deckOne);
-		
+
 		// test deck shuffling
 		deckOne.shuffle();
 		System.out.println("\nshuffled deck one : \n");
@@ -55,7 +61,7 @@ public class Main {
 		deckOne.addCard(new Card(Suit.clubs, 1));
 		deckOne.addCard(new Card(Suit.spades, 2));
 		System.out.println(deckOne);
-		
+
 		// deck two is the same thing but added then removed 3 of hearts
 		deckTwo = new Deck();
 		deckTwo.addCard(new Card(Suit.clubs, 1));
@@ -108,59 +114,73 @@ public class Main {
 		deckOne.setAllowDuplicates(false);
 		System.out.println(deckOne);
 
-		//sort deck
+		// sort deck
 		deckOne = new FilledDeck();
 		deckOne.shuffle();
 		deckOne.sort();
 		System.out.println(deckOne);
-		
-		
-		//test unordered equals
+
+		// test unordered equals
 		deckOne = new Deck();
 		deckOne.addCard(new Card(Suit.spades, 2));
 		deckOne.addCard(new Card(Suit.joker, 0));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
-		
+
 		deckTwo = new Deck();
 		deckTwo.addCard(new Card(Suit.diamonds, 13));
 		deckTwo.addCard(new Card(Suit.joker, 0));
 		deckTwo.addCard(new Card(Suit.spades, 2));
-		
-		if(deckOne.unorderedEquals(deckTwo)) {
+
+		if (deckOne.unorderedEquals(deckTwo)) {
 			System.out.println("deck 1 unordered equals deck 2");
 		}
-		
-		//test subdeck on a deck with duplicates
+
+		// test subdeck on a deck with duplicates
 		deckOne = new Deck();
 		deckOne.setAllowDuplicates(true);
 		deckOne.addCard(new Card(Suit.spades, 2));
 		deckOne.addCard(new Card(Suit.joker, 0));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
-		
+
 		deckTwo = deckOne.subDeck(1, 3);
 		System.out.print(deckTwo);
 		
-		//mimic old removeCard function
-		System.out.println("mimic old removecard:");
+		System.out.println("drawing from dupe deck");
+
+		// test drawing on deck with duplicates
+		deckOne = new Deck();
+		deckOne.setAllowDuplicates(true);
+		deckOne.addCard(new Card(Suit.spades, 2));
+		deckOne.addCard(new Card(Suit.joker, 0));
+		deckOne.addCard(new Card(Suit.diamonds, 13));
+		deckOne.addCard(new Card(Suit.spades, 2));
+		deckOne.addCard(new Card(Suit.spades, 2));
 		
+		deckOne.drawTop(true);
+		
+		System.out.println(deckOne);
+
+		// mimic old removeCard function
+		System.out.println("mimic old removecard:");
+
 		deckOne = new Deck();
 		deckOne.addCard(new Card(Suit.spades, 2));
 		deckOne.addCard(new Card(Suit.joker, 0));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
 		deckOne.addCard(new Card(Suit.diamonds, 13));
-		
+
 		Card toRemove = new Card(Suit.diamonds, 13);
-		while(deckOne.contains(toRemove)) {
+		while (deckOne.contains(toRemove)) {
 			deckOne.removeCard(toRemove);
 		}
-		
+
 		System.out.println(deckOne);
-		
-		//test drawing on an empty deck
+
+		// test drawing on an empty deck
 		deckOne.clear();
 		deckOne.drawRandom(true);
-		
+
 	}
 }

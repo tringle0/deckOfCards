@@ -1,5 +1,11 @@
 package deckOfCards;
 
+/**
+ * @author tringle
+ * @version four
+ * @since 10/1/2025
+ */
+
 //helper function to format cards for printing
 public class CardFormatter {
 	private String suitToString(Suit suit) {

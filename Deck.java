@@ -2,6 +2,12 @@ package deckOfCards;
 
 import java.util.*;
 
+/**
+ * @author tringle
+ * @version four
+ * @since 10/1/2025
+ */
+
 class Deck {
 	// ---------- fields ----------
 	private boolean allowDuplicates = false;
@@ -34,6 +40,15 @@ class Deck {
 	// check if deck is empty
 	public boolean isEmpty() {
 		return cards.isEmpty();
+	}
+	
+	//returns the size of the deck
+	public int size() {
+		return cards.size();
+	}
+	
+	public Card getCard(int index) {
+		return cards.get(index);
 	}
 	
 	//returns the amount of a card in a deck

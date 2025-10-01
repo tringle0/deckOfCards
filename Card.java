@@ -1,5 +1,11 @@
 package deckOfCards;
 
+/**
+ * @author tringle
+ * @version four
+ * @since 10/1/2025
+ */
+
 public class Card{
 	//---------- fields ----------
 	//variables: suit and rank
